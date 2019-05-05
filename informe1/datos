@@ -1,0 +1,176 @@
+con problems
+
+astar 2
+Total Length=6383
+Total Expansions=3825792
+Total Calls=100
+Total Updates=6526739
+Total Hashcount=6526739
+Total Hashmax=195
+Total Time=6.18
+
+astar 10
+Total Length=11703
+Total Expansions=390998
+Total Calls=100
+Total Updates=656078
+Total Hashcount=656078
+Total Hashmax=138
+Total Time=3.44
+
+wida 1
+Total Length=5205
+Total Expansions=36302807931
+Total Calls=900
+Total Updates=0
+Total Hashcount=0
+Total Hashmax=0
+Total Time=526.92
+
+wida 2
+Total Length=6713
+Total Expansions=22940670
+Total Calls=243
+Total Updates=0
+Total Hashcount=0
+Total Hashmax=0
+Total Time=0.31
+
+wida 10
+Total Length=31087
+Total Expansions=13882096
+Total Calls=154
+Total Updates=0
+Total Hashcount=0
+Total Hashmax=0
+Total Time=0.14
+
+wida 20
+Total Length=61013
+Total Expansions=214724473
+Total Calls=154
+Total Updates=0
+Total Hashcount=0
+
+wida 15
+Total Length=46139
+Total Expansions=44965443
+Total Calls=154
+Total Updates=0
+Total Hashcount=0
+Total Hashmax=0
+Total Time=1.39
+
+
+wida 5
+Total Length=15915
+Total Expansions=6798874
+Total Calls=154
+Total Updates=0
+Total Hashcount=0
+Total Hashmax=0
+Total Time=1.08
+
+rtaa 10
+Total Length=107227
+Total Expansions=1064695
+Total Steps=107227
+Total Searches=106478
+Total Updates=0
+Total Hashcount=836243
+Total Hashmax=144
+Total Time=2.47
+
+rtaa 20
+Total Length=65453
+Total Expansions=1286876
+Total Steps=65453
+Total Searches=64362
+Total Updates=0
+Total Hashcount=916422
+Total Hashmax=154
+Total Time=2.56
+
+
+rtaa 100
+Total Length=30777
+Total Expansions=2911380
+Total Steps=30777
+Total Searches=29141
+Total Updates=0
+Total Hashcount=1932920
+Total Hashmax=183
+Total Time=3.96
+
+rtaa 1000
+Total Length=16169
+Total Expansions=13768718
+Total Steps=16169
+Total Searches=13797
+Total Updates=0
+Total Hashcount=8988756
+Total Hashmax=219
+Total Time=11.40
+
+rtaa 2000
+Total Length=13741
+Total Expansions=22243656
+Total Steps=13741
+Total Searches=11152
+Total Updates=0
+Total Hashcount=14453440
+Total Hashmax=237
+Total Time=15.48
+
+rtaa 10000
+Total Length=10051
+Total Expansions=68280377
+Total Steps=10051
+Total Searches=6853
+Total Updates=0
+Total Hashcount=43940672
+Total Hashmax=302
+Total Time=56.39
+
+
+
+
+
+
+
+
+
+
+
+
+con problems0
+
+astar 1
+Total Length=5089
+Total Expansions=183054679
+Total Calls=100
+Total Updates=331000778
+Total Hashcount=331000778
+Total Hashmax=450
+Total Time=180.21
+
+astar 2
+Total Length=5975
+Total Expansions=2468405
+Total Calls=100
+Total Updates=4349213
+Total Hashcount=4349213
+Total Hashmax=190
+Total Time=5.46
+
+astar 10
+Total Length=11793
+Total Expansions=285285
+Total Calls=100
+Total Updates=503942
+Total Hashcount=503942
+Total Hashmax=120
+Total Time=2.38
+
+
+
