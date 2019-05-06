@@ -21,6 +21,8 @@ long long int astar_generated;
 long long int astar_calls;
 double W;
 int increment[SIZE][SIZE][SIZE]; /* table for heuristic increments */
+int the_problem;
+FILE *fp;
 
 void print_state(uint64_t s) {
   int i;
@@ -31,7 +33,8 @@ void print_state(uint64_t s) {
 }
 
 void print_node(Node *n) {
-  printf("\n[%.1f]\n",n->h);print_state(n->state);
+  printf("\n[%.1f]\n",n->h);
+  print_state(n->state);
 }
 
 void print_solution(Node *n) {
@@ -41,9 +44,95 @@ void print_solution(Node *n) {
   }
 }
 
+void open_file() {
+  char name[25];
+  snprintf(name, 25, "../moves/problem_%d_.txt", the_problem); // puts string into buffer
+  fp = fopen(name, "w+");
+}
+
+void close_file() {
+  fclose(fp);
+}
+
+void write_file(Node *n, int move){
+  int i;
+  for (i=0; i<SIZE;++i) {
+    fprintf(fp, "%3d",get_tile(n->state,i));
+    //if((i+1)%X==0) printf("\n");
+  }
+  fprintf(fp, " , ");
+  if (move == 0) {
+    fprintf(fp, "1 0 0 0");
+  }
+  if (move == 1) {
+    fprintf(fp, "0 1 0 0");
+  }
+  if (move == 2) {
+    fprintf(fp, "0 0 1 0");
+  }
+  if (move == 3) {
+    fprintf(fp, "0 0 0 1");
+  }
+  fprintf(fp, "\n");
+}
+
+int find_move(uint64_t s1, uint64_t s2){
+  int move = 9; // 0 left, 1 down, 2 right, 3 up
+  int i;
+  for (i=0; i<SIZE;++i) {
+    if (get_tile(s1, i)==0) {
+      if (i%4 != 0){
+        // it is not in the first column
+        // it can moves to the left
+        if (get_tile(s2, i-1) == 0) {
+          // it is a move to the left!
+          move = 0;
+        }
+      }
+      if (i < 12){
+        // it is not in the last row
+        if (get_tile(s2, i+4) == 0) {
+          move = 1;
+        }
+      }
+      if (i%4 != 3){
+        // it is not in the last column
+        if (get_tile(s2, i+1) == 0) {
+          move = 2;
+        }
+      }
+      if (i > 3){
+        // it is not in the last column
+        if (get_tile(s2, i-4) == 0) {
+          move = 3;
+        }
+      }
+    }
+  }
+  return move;
+}
+
+// recibe el primer nodo de la solucion
+void write_moves(Node *n) {
+  // recive a node, see the next node, and therefore returns the move as a list
+  // (izq, abajo, derecha, arriba) with 0s and 1s
+  // print_node(n);
+  open_file();
+  while (n->trace) {
+    // print_node(n);
+    int move = find_move(n->state, n->trace->state);
+    //printf("%i", move);
+    write_file(n, move);
+    n = n->trace;
+  }
+  close_file();
+}
+// recibe el primer nodo de la solucion
 int solution_size(Node *n) {
-  printf("hola");
-  print_solution(n);
+  // open_file();
+  // write_moves(n);
+  // close_file();
+  write_moves(n);
   int size;
   for (size=0;n;n=n->trace,size++);
   return size-1;
@@ -100,11 +189,11 @@ int astar(int start_state[SIZE], int blank)
 
 
       if (child->g > newg) {
-	child->g=newg;
-	child->key[0]=child->g+W*child->h;
-	child->key[1]=-child->g;
-	child->back=node;
-	insert_heap(open,child);
+      	child->g=newg;
+      	child->key[0]=child->g+W*child->h;
+      	child->key[1]=-child->g;
+      	child->back=node;
+      	insert_heap(open,child);
       }
     }
   }
@@ -145,7 +234,8 @@ int main(int argc, char **argv)
 #ifndef SUCCINCT
   printf ("%3s %2s %6s %8s %6s %6s %6s %3s\n","#p","len","#calls","#exp","#gen","hashcnt","hashmax","time");
 #endif
-  for (problem = 0; problem <= 0; problem++){ /* for each initial state */
+  for (problem = 0; problem <= 100; problem++){ /* for each initial state */
+    the_problem = problem;
     int steps;
     blank = input(s);                                 /* input initial state */
     gettimeofday (&stv,&stz);
