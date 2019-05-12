@@ -50,7 +50,9 @@ x_train, y_train = np.array(
     [[3,10],[4,5],[2,10],[10,2],[9,8],[10,8],[13,12],[1,5]]),np.array(
     [0,0,0,1,1,1,1,0])
 
-model.fit(x_train, y_train, epochs=1000, batch_size=5)
+#model.fit(x=x_train, y=y_train, epochs=1000, batch_size=5)
+
+model.fit_generator(generator, epochs=1000)
 
 def see_weights(model):
     for capa in model.layers:
