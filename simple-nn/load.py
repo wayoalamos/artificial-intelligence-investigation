@@ -3,7 +3,7 @@ import numpy as np
 def load_data():
     x_train = None
     y_train = None
-    file_path = "../moves/problem_"
+    file_path = "../moves-example-one/problem_"
     file_end = "_.txt"
     for i in range(69):
         f = open(file_path+str(i)+file_end, "r")
@@ -27,7 +27,7 @@ def load_data():
 def load_evaluation_data():
     x_train = None
     y_train = None
-    file_path = "../moves/problem_"
+    file_path = "../moves-example-one/problem_"
     file_end = "_.txt"
     for i in range(69,70):
         f = open(file_path+str(i)+file_end, "r")
