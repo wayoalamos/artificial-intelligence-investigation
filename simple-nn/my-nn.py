@@ -18,6 +18,7 @@ BATCH_SIZE = 5
 
 # load
 def load_nn(n_input_layers, n_hidden_layers, n_output_layers):
+    # Creates the NN model, then return it.
 
     # Input layer
     input = Input(shape = (n_input_layers,))
@@ -39,16 +40,6 @@ def load_nn(n_input_layers, n_hidden_layers, n_output_layers):
     return model
 
 # training
-model = load_nn(16,20,4)
-
-plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
-
-model.summary()
-
-
-x_train, y_train = load_data()
-
-index = 0
 def nn_read_samples(n):
     global index
     if index > len(x_train):
@@ -58,9 +49,6 @@ def nn_read_samples(n):
     index += n
     return [x_sample, y_sample]
 
-
-x_train_e, y_train_e = load_evaluation_data()
-index_e = 0
 def nn_read_evaluation_samples(n):
     global index_e
     if index_e > len(x_train_e):
@@ -82,24 +70,6 @@ def evaluate_generator(batch_size):
     while 1:
         yield nn_read_evaluation_samples(batch_size)
 
-model.fit_generator(
-                epochs=1000,
-                generator=generator(BATCH_SIZE),
-                steps_per_epoch=10, # cambiar
-                validation_data=validation_generator(BATCH_SIZE),
-                validation_steps=10,
-                verbose=1
-                )
-
-print("evalution")
-evaluation = model.evaluate_generator(
-                generator=evaluate_generator(BATCH_SIZE),
-                steps = BATCH_SIZE,
-                verbose=0
-                )
-
-print(evaluation)
-
 def see_weights(model):
     for capa in model.layers:
         print("weights: ", capa.get_weights())
@@ -116,16 +86,48 @@ def get_decision(prediction):
 
     return ans
 
+
+model = load_nn(16,20,4)
+plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
+#model.summary()
+
+x_train, y_train = load_data()
+x_train_e, y_train_e = load_evaluation_data()
+
+index = 0
+index_e = 0
+
+model.fit_generator(
+                epochs=1000,
+                generator=generator(BATCH_SIZE),
+                steps_per_epoch=50, # cambiar
+                validation_data=validation_generator(BATCH_SIZE),
+                validation_steps=10,
+                verbose=1
+                )
+
+print("*evalution*")
+evaluation = model.evaluate_generator(
+                generator=evaluate_generator(BATCH_SIZE),
+                steps = BATCH_SIZE,
+                verbose=1
+                )
+
+print(evaluation)
+
 # Prediccion
 x_pred = x_train_e
 y_pred = model.predict(x_pred)
 
-print("*predictions*")
-for i in range(len(x_pred)):
-    print(x_pred[i])
-    print(y_pred[i])
-    print("decision taken :")
-    print(get_decision(y_pred[i]))
-    print("solution:")
-    print(y_train_e[i])
-    print(" ")
+def print_predictions():
+    print("*predictions*")
+    for i in range(len(x_pred)):
+        print(x_pred[i])
+        print(y_pred[i])
+        print("decision taken :")
+        print(get_decision(y_pred[i]))
+        print("solution:")
+        print(y_train_e[i])
+        print(" ")
+
+print_predictions()
