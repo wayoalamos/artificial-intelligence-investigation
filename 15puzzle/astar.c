@@ -15,6 +15,7 @@
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
 #define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
 
+int NUMBER_OF_PROBLEMS = 49;
 
 long long int astar_expansions;
 long long int astar_generated;
@@ -234,7 +235,7 @@ int main(int argc, char **argv)
 #ifndef SUCCINCT
   printf ("%3s %2s %6s %8s %6s %6s %6s %3s\n","#p","len","#calls","#exp","#gen","hashcnt","hashmax","time");
 #endif
-  for (problem = 0; problem <= 100; problem++){ /* for each initial state */
+  for (problem = 0; problem <= NUMBER_OF_PROBLEMS; problem++){ /* for each initial state */
     the_problem = problem;
     int steps;
     blank = input(s);                                 /* input initial state */
