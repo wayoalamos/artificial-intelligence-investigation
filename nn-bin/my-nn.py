@@ -13,8 +13,6 @@ from keras.utils.vis_utils import plot_model
 import numpy as np
 
 FILE_NAME = "model_diagram"
-BATCH_SIZE = 5
-
 
 # load
 def load_nn(n_input_layers, n_hidden_layers, n_output_layers):
@@ -24,9 +22,9 @@ def load_nn(n_input_layers, n_hidden_layers, n_output_layers):
     input = Input(shape = (n_input_layers,))
 
     # Hidden layer
-    hidden_layer = Dense(units=n_hidden_layers, activation='relu')(input)
-    hidden_layer = Dense(units=n_hidden_layers, activation='relu')(hidden_layer)
-    hidden_layer = Dense(units=n_hidden_layers, activation='relu')(hidden_layer)
+    hidden_layer = Dense(units=16, activation='relu')(input)
+    #hidden_layer = Dense(units=16*5, activation='relu')(hidden_layer)
+    #hidden_layer = Dense(units=16, activation='relu')(hidden_layer)
 
     # Output layer
     output_layer = Dense(units=n_output_layers, activation='softmax')(hidden_layer)
@@ -64,7 +62,7 @@ def generator(batch_size):
 
 def validation_generator(batch_size):
     while 1:
-        yield nn_read_samples(batch_size)
+        yield nn_read_evaluation_samples(batch_size)
 
 def evaluate_generator(batch_size):
     while 1:
@@ -87,7 +85,7 @@ def get_decision(prediction):
     return ans
 
 
-model = load_nn(16,20,4)
+model = load_nn(16*16,16*10,4)
 plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 #model.summary()
 
@@ -97,19 +95,23 @@ x_train_e, y_train_e = load_evaluation_data()
 index = 0
 index_e = 0
 
+BATCH_SIZE = 50
+STEPS_PER_EPOCH = int(len(x_train)/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
+VALIDATION_STEPS = int(len(x_train_e)/BATCH_SIZE)
+
 model.fit_generator(
-                epochs=1000,
+                epochs=100,
                 generator=generator(BATCH_SIZE),
-                steps_per_epoch=50, # cambiar
+                steps_per_epoch=STEPS_PER_EPOCH, # cambiar
                 validation_data=validation_generator(BATCH_SIZE),
-                validation_steps=10,
+                validation_steps=VALIDATION_STEPS,
                 verbose=1
                 )
 
 print("*evalution*")
 evaluation = model.evaluate_generator(
                 generator=evaluate_generator(BATCH_SIZE),
-                steps = BATCH_SIZE,
+                steps=BATCH_SIZE,
                 verbose=1
                 )
 
@@ -122,12 +124,10 @@ y_pred = model.predict(x_pred)
 def print_predictions():
     print("*predictions*")
     for i in range(len(x_pred)):
-        print(x_pred[i])
-        print(y_pred[i])
         print("decision taken :")
         print(get_decision(y_pred[i]))
         print("solution:")
         print(y_train_e[i])
         print(" ")
 
-print_predictions()
+# print_predictions()

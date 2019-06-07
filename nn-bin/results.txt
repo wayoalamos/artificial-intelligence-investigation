@@ -1,0 +1,4 @@
+epochs = 1000
+3 hidden_layer relu 16*5
+output softmax
+[5.150775718688965, 0.6000000178813935]
