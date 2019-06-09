@@ -43,10 +43,14 @@ def to_str(grid):
             a += str(grid[i][j]) + " "
     return a
 
-grid = [[5, 7, 11, 8], [14, 9, 13, 0], [10, 12, 3, 15], [6, 1, 4, 2]]
-for i in range(50):
-    grid = random_exercise(grid)
-    if i < 10:
-        print("0" + str(i) + " " +to_str(grid))
-    else:
-        print(str(i) + " " +to_str(grid))
+def generate_data():
+    grid = [[5, 7, 11, 8], [14, 9, 13, 0], [10, 12, 3, 15], [6, 1, 4, 2]]
+    for j in range(10):
+        f= open("random-exercises-"+str(j)+".txt","w+")
+        for i in range(500):
+            grid = random_exercise(grid)
+            f.write("00 " +to_str(grid) + "\n")
+            print(i)
+        f.close()
+
+generate_data();

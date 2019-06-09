@@ -15,7 +15,7 @@
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
 #define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
 
-int NUMBER_OF_PROBLEMS = 49;
+int NUMBER_OF_PROBLEMS = 99;
 
 long long int astar_expansions;
 long long int astar_generated;

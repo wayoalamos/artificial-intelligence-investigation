@@ -25,14 +25,30 @@ long long int expanded;                /* number of states expanded per iteratio
 long long int total;                            /* total number of states generated */
 long long int total_exp;
 
-int NUMBER_OF_PROBLEMS = 1;
+FILE *fp;
+
+int NUMBER_OF_PROBLEMS = 499;
+
+void write_in_file(int blank){
+  fprintf(fp, "%i\n", blank);
+}
+
+void open_file(int problem) {
+  char name[25];
+  snprintf(name, 25, "../moves-from-generated-data/ida_problem_%d_.txt", problem); // puts string into buffer
+  fp = fopen(name, "w+");
+}
+
+void close_file() {
+  fclose(fp);
+}
 
 /* SEARCH performs one depth-first iteration of the search, cutting
    off when the depth plus the heuristic evaluation exceeds THRESH. If
    it succeeds, it returns 1 and records the sequence of tiles moved in
    the solution.  Otherwise, it returns 0 */
 
-int search (int blank, int oldblank, int g, int h)
+int search (int blank, int oldblank, int g, int h, int problem)
 
 /*int blank;			                 current position of blank */
 /*int oldblank;			                previous position of blank */
@@ -52,11 +68,12 @@ int search (int blank, int oldblank, int g, int h)
 	if (newh+g+1 <= thresh)                    /* less than search cutoff */
 	  {s[blank] = tile;                               /* make actual move */
 	    if ((newh == 0) ||                     /* goal state is reached or */
-		(search(newblank, blank, g+1, newh)))       /* search succeeds */
-	      return (1);                                 /* exit with success */
+		(search(newblank, blank, g+1, newh, problem))){       /* search succeeds */
+        write_in_file(blank);
+        return (1);                                 /* exit with success */
+        }
 	    s[newblank] = tile;}}       /* undo current move before doing next */
   return (0);                                 /* exit with failure */
-  printf ("hiliii");
 }
 /* Main program does the initialization, inputs an initial state, solves it,
    and prints the solution. */
@@ -84,24 +101,26 @@ int main ()
 	    "time");
 #endif
 
-  for (problem = 1; problem <= NUMBER_OF_PROBLEMS; problem++){ /* for each initial state */
-    blank = input(s);                                 /* input initial state */
+  for (problem = 0; problem <= NUMBER_OF_PROBLEMS; problem++){ /* for each initial state */
+    blank = input(s);                                 /* input initial state */ // initial blank = 7
     gettimeofday (&stv,&stz);
     thresh = initeval = heuristic(s);      /* initial threshold is initial h */
     total = 0;                           /* initialize total nodes generated */
     total_exp = 0;                           /* initialize total nodes generated */
     calls = 0;                 /* initialize total number of calls to search */
+    open_file(problem);
     do{                    /* depth-first iterations until solution is found */
       generated = 0;            /* initialize number generated per iteration */
       expanded=0;
       ++calls;
-      success = search (blank, -1, 0, initeval);           /* perform search */
+      success = search (blank, -1, 0, initeval, problem);           /* perform search */
       fflush(stdout);       /* flush output buffer to see progress of search */
       total = total + generated;    /* keep track of total nodes per problem */
       total_exp += expanded;
       thresh += 2;                  /* threshold always increases by two */
     }
     while (!success);                             /* until solution is found */
+    close_file();
     totalexpansions+=total;
     gettimeofday (&etv,&etz);
     if (etv.tv_usec>stv.tv_usec){
