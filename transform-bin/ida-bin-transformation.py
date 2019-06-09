@@ -41,9 +41,9 @@ def transform_to_bin(path, new_path):
         new_file.write(to_write + "\n")
     file.close()
 
-path = "../moves/ida_problem_0_.txt"
+path = "../moves-from-generated-data/ida_problem_0_.txt"
 new_path = "../moves/bin-moves/sol_ida_problem_0_.txt"
-for i in range(1):
-    path = path[:21] + str(i) + "_.txt"
+for i in range(65):
+    path = path[:41] + str(i) + "_.txt"
     new_path = new_path[:35] + str(i) + "_.txt"
     transform_to_bin(path, new_path)

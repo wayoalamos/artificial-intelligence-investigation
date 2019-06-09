@@ -27,15 +27,15 @@ long long int total_exp;
 
 FILE *fp;
 
-int NUMBER_OF_PROBLEMS = 499;
+int NUMBER_OF_PROBLEMS = 353;
 
 void write_in_file(int blank){
   fprintf(fp, "%i\n", blank);
 }
 
 void open_file(int problem) {
-  char name[25];
-  snprintf(name, 25, "../moves-from-generated-data/ida_problem_%d_.txt", problem); // puts string into buffer
+  char name[50];
+  snprintf(name, 50, "../moves-from-generated-data/ida_problem_%d_.txt", problem); // puts string into buffer
   fp = fopen(name, "w+");
 }
 
