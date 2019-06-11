@@ -24,7 +24,7 @@ FILE = open("../moves/bin-moves/1.1/sol_ida_problem_0_.txt", "r")
 FILE_E = open("../moves/bin-moves/1.1/sol_ida_problem_"+str(FILE_NUMBER_E)+"_.txt", "r")
 
 # load
-def load_nn(n_input_layers, n_hidden_layers, n_output_layers):
+def load_nn(n_input_layers, n_output_layers):
     # Creates the NN model, then return it.
 
     # Input layer
@@ -32,7 +32,7 @@ def load_nn(n_input_layers, n_hidden_layers, n_output_layers):
 
     # Hidden layer
     hidden_layer = Dense(units=16, activation='relu')(input)
-    # hidden_layer = Dense(units=16, activation='relu')(hidden_layer)
+    # hidden_layer = Dense(units=16*5, activation='relu')(hidden_layer)
     #hidden_layer = Dense(units=16, activation='relu')(hidden_layer)
 
     # Output layer
@@ -82,7 +82,7 @@ def get_decision(prediction):
     return ans
 
 
-model = load_nn(16*16,16*10,4)
+model = load_nn(16*16,4)
 plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 #model.summary()
 
