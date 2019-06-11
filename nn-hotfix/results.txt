@@ -1,4 +1,5 @@
-epochs = 1000
-3 hidden_layer relu 16*5
-output softmax
-[5.150775718688965, 0.6000000178813935]
+1 hidden layer of 16
+Epoch 326/500
+468/468 [==============================] - 3s 6ms/step - loss: 0.3671 - acc: 0.8631 - val_loss: 0.8408 - val_acc: 0.7661
+
+lo mismo para 2 hidden layers de 16*5, y 16

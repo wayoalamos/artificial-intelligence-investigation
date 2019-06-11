@@ -15,9 +15,9 @@ import numpy as np
 FILE_NAME = "model_diagram"
 
 FILE_NUMBER = 0
-FILE_EVALUATION_NUMBER = 120
+FILE_EVALUATION_NUMBER = 450
 FILE_NUMBER_E = FILE_EVALUATION_NUMBER
-FILE_LAST_NUMBER =  145
+FILE_LAST_NUMBER =  498
 
 
 FILE = open("../moves/bin-moves/1.1/sol_ida_problem_0_.txt", "r")
@@ -88,11 +88,11 @@ plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 
 
 BATCH_SIZE = 50
-STEPS_PER_EPOCH = int(51*FILE_EVALUATION_NUMBER/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
-VALIDATION_STEPS = int(51*(FILE_LAST_NUMBER-FILE_EVALUATION_NUMBER)/BATCH_SIZE)
+STEPS_PER_EPOCH = int(52*FILE_EVALUATION_NUMBER/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
+VALIDATION_STEPS = int(52*(FILE_LAST_NUMBER-FILE_EVALUATION_NUMBER)/BATCH_SIZE)
 
 model.fit_generator(
-                epochs=10,
+                epochs=500,
                 generator=generator(BATCH_SIZE),
                 steps_per_epoch=STEPS_PER_EPOCH, # cambiar
                 validation_data=validation_generator(BATCH_SIZE),
