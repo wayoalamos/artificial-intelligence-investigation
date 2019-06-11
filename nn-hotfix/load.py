@@ -3,23 +3,16 @@ import threading
 
 lock = threading.Lock()
 
-def load_data(batch_size, file, file_number, file_evaluation_number):
+def load_data(batch_size, file):
     lock.acquire()
     x_train, y_train = None, None
+    print("acaAAAAAAAAAb")
+
     for _ in range(batch_size):
+        print("acaAAAAAAAAA")
         line = file.readline()
         if not line:
-            file_number += 1
-            file.close()
-            if file_number >= file_evaluation_number:
-                file_number = 0
-            file_path = "../moves/bin-moves/1.1/sol_ida_problem_"
-            file_end = "_.txt"
-            file = open(file_path+str(file_number)+file_end, "r")
-            line = file.readline()
-
-        #print("aca:", file_number)
-        #print(line)
+            break
         solution = line[-5:] # last 4 chars
         line = line[:-5] # all line except the solution
         line = line.replace(" ", "")
@@ -31,26 +24,17 @@ def load_data(batch_size, file, file_number, file_evaluation_number):
         else:
             x_train = np.append(x_train, x_sample, axis=0)
             y_train = np.append(y_train, y_sample, axis=0)
-    #print(LAST_FILE)
-    #print("************evaluation: "+str(file_number))
-    lock.release()
-    return x_train, y_train, file, file_number
 
-def load_data_e(batch_size, file, file_number, file_evaluation_number, file_last_number):
+    lock.release()
+    return x_train, y_train, file
+
+def load_data_e(batch_size, file):
     lock.acquire()
     x_train, y_train = None, None
     for _ in range(batch_size):
         line = file.readline()
         if not line:
-            file_number += 1
-            file.close()
-            if file_number >= file_last_number:
-                file_number = file_evaluation_number
-            file_path = "../moves/bin-moves/1.1/sol_ida_problem_"
-            file_end = "_.txt"
-            file = open(file_path+str(file_number)+file_end, "r")
-            line = file.readline()
-
+            break
         solution = line[-5:] # last 4 chars
         line = line[:-5] # all line except the solution
         line = line.replace(" ", "")
@@ -62,7 +46,6 @@ def load_data_e(batch_size, file, file_number, file_evaluation_number, file_last
         else:
             x_train = np.append(x_train, x_sample, axis=0)
             y_train = np.append(y_train, y_sample, axis=0)
-    #print(LAST_FILE)
-    #print("************evaluation: "+str(file_number))
+
     lock.release()
-    return x_train, y_train, file, file_number
+    return x_train, y_train, file

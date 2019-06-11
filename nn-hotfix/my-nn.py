@@ -14,14 +14,9 @@ import numpy as np
 
 FILE_NAME = "model_diagram"
 
-FILE_NUMBER = 0
-FILE_EVALUATION_NUMBER = 450
-FILE_NUMBER_E = FILE_EVALUATION_NUMBER
-FILE_LAST_NUMBER =  498
+FILE = open("../shuffle-data/solutions.txt", "r")
+FILE_E = open("../shuffle-data/solutions_e.txt", "r")
 
-
-FILE = open("../moves/bin-moves/1.1/sol_ida_problem_0_.txt", "r")
-FILE_E = open("../moves/bin-moves/1.1/sol_ida_problem_"+str(FILE_NUMBER_E)+"_.txt", "r")
 
 # load
 def load_nn(n_input_layers, n_output_layers):
@@ -48,13 +43,13 @@ def load_nn(n_input_layers, n_output_layers):
 
 # training
 def nn_read_samples(batch_size):
-    global FILE, FILE_NUMBER
-    x_sample, y_sample, FILE, FILE_NUMBER = load_data(batch_size, FILE, FILE_NUMBER, FILE_EVALUATION_NUMBER)
+    global FILE
+    x_sample, y_sample, FILE = load_data(batch_size, FILE)
     return [x_sample, y_sample]
 
 def nn_read_evaluation_samples(batch_size):
-    global FILE_E, FILE_NUMBER_E, FILE_EVALUATION_NUMBER, FILE_LAST_NUMBER
-    x_sample, y_sample, FILE_E, FILE_NUMBER_E = load_data_e(batch_size, FILE_E, FILE_NUMBER_E, FILE_EVALUATION_NUMBER, FILE_LAST_NUMBER)
+    global FILE_E
+    x_sample, y_sample, FILE_E = load_data_e(batch_size, FILE_E)
     return [x_sample, y_sample]
 
 def generator(batch_size):
@@ -81,6 +76,8 @@ def get_decision(prediction):
 
     return ans
 
+FILE.close()
+FILE_E.close()
 
 model = load_nn(16*16,4)
 plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
@@ -88,8 +85,8 @@ plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 
 
 BATCH_SIZE = 50
-STEPS_PER_EPOCH = int(52*FILE_EVALUATION_NUMBER/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
-VALIDATION_STEPS = int(52*(FILE_LAST_NUMBER-FILE_EVALUATION_NUMBER)/BATCH_SIZE)
+STEPS_PER_EPOCH = int(500/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
+VALIDATION_STEPS = int(200/BATCH_SIZE)
 
 model.fit_generator(
                 epochs=500,
