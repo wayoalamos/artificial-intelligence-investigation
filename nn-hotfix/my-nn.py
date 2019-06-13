@@ -85,7 +85,7 @@ model = load_nn(16*16,4)
 plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 #model.summary()
 
-PROBLEMS =  33817      # 20 60 20 100
+PROBLEMS =  46080      # 20 60 20 100
 VALIDATION = 3562
 
 BATCH_SIZE = 50
