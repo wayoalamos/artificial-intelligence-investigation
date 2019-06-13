@@ -5,6 +5,7 @@ from keras.layers.merge import concatenate
 from keras.optimizers import Adam
 from load import load_data, load_data_e
 
+import sys
 
 # training
 import os
@@ -76,25 +77,29 @@ def get_decision(prediction):
 
     return ans
 
-FILE.close()
-FILE_E.close()
+# generator(20)
+# print(nn_read_evaluation_samples(20))
+
 
 model = load_nn(16*16,4)
 plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 #model.summary()
 
+PROBLEMS =  33817      # 20 60 20 100
+VALIDATION = 3562
 
 BATCH_SIZE = 50
-STEPS_PER_EPOCH = int(500/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
-VALIDATION_STEPS = int(200/BATCH_SIZE)
+STEPS_PER_EPOCH = int(PROBLEMS/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
+VALIDATION_STEPS = int(VALIDATION/BATCH_SIZE)
+
 
 model.fit_generator(
-                epochs=500,
+                epochs=100,
                 generator=generator(BATCH_SIZE),
                 steps_per_epoch=STEPS_PER_EPOCH, # cambiar
                 validation_data=validation_generator(BATCH_SIZE),
                 validation_steps=VALIDATION_STEPS,
-                verbose=1
+                # verbose=1
                 )
 
 """
@@ -122,3 +127,8 @@ def print_predictions():
         print(" ")
 
 # print_predictions()
+
+import time
+time.sleep(1)
+FILE.close()
+FILE_E.close()

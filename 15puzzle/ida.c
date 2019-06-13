@@ -27,7 +27,7 @@ long long int total_exp;
 
 FILE *fp;
 
-int NUMBER_OF_PROBLEMS = 353;
+int NUMBER_OF_PROBLEMS = 65;
 
 void write_in_file(int blank){
   fprintf(fp, "%i\n", blank);
