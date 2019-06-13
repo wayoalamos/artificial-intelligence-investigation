@@ -1,4 +1,4 @@
-f = open("../../shuffle-data/solutions.txt", "w")
+f = open("../../shuffle-data/solutions.txt", "a")
 for i in range (65):
     path = "sol_ida_problem_" + str(i) +"_.txt"
     file = open(path, "r")
@@ -7,4 +7,4 @@ for i in range (65):
     file.close()
 f.close()
 
-## 33818 + 3300 = 36.700
+## 37.253
