@@ -1,4 +1,3 @@
-}# load
 from keras.models import Model, Sequential
 from keras.layers import Input, Dense, Dropout, Concatenate # Merge
 from keras.layers.merge import concatenate
@@ -27,8 +26,8 @@ def load_nn(n_input_layers, n_output_layers):
     input = Input(shape = (n_input_layers,))
 
     # Hidden layer
-    hidden_layer = Dense(units=16, activation='relu')(input)
-    # hidden_layer = Dense(units=16*5, activation='relu')(hidden_layer)
+    hidden_layer = Dense(units=16*5, activation='relu')(input)
+    hidden_layer = Dense(units=16, activation='relu')(hidden_layer)
     #hidden_layer = Dense(units=16, activation='relu')(hidden_layer)
 
     # Output layer
@@ -41,7 +40,7 @@ def load_nn(n_input_layers, n_output_layers):
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
     return model
-    
+
 # training
 def nn_read_samples(batch_size):
     global FILE
@@ -85,8 +84,8 @@ model = load_nn(16*16,4)
 plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 #model.summary()
 
-PROBLEMS =  60000      # 20 60 20 100
-VALIDATION = 6820
+PROBLEMS =  11000      # 20 60 20 100
+VALIDATION = 9667
 
 BATCH_SIZE = 50
 STEPS_PER_EPOCH = int(PROBLEMS/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
