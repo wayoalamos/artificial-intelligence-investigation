@@ -1,4 +1,4 @@
-
+  
 /* This program performs iterative-deepening A* on the sliding tile
 puzzles, using the Manhattan distance evaluation function. It was
 written by Richard E.  Korf, Computer Science Department, University
