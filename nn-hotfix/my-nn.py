@@ -3,6 +3,7 @@ from keras.layers import Input, Dense, Dropout, Concatenate # Merge
 from keras.layers.merge import concatenate
 from keras.optimizers import Adam
 from load import load_data, load_data_e
+from test import test
 
 import sys
 
@@ -65,26 +66,14 @@ def see_weights(model):
         print("weights: ", capa.get_weights())
 
 # see_weights(model)
-def get_decision(prediction):
-    max, ind = prediction[0], 0
-    for i in range(1,4):
-        if prediction[i] > max:
-            max, ind = prediction[i], i
 
-    ans = [0, 0, 0, 0]
-    ans[ind] = 1
-
-    return ans
-
-# generator(20)
-# print(nn_read_evaluation_samples(20))
 
 
 model = load_nn(16*16,4)
 plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
 #model.summary()
 
-PROBLEMS =  11000      # 20 60 20 100
+PROBLEMS =  11000
 VALIDATION = 9667
 
 BATCH_SIZE = 50
@@ -102,16 +91,17 @@ model.fit_generator(
                 )
 
 print("*evalution*")
+
 evaluation = model.evaluate_generator(
                 generator=validation_generator(BATCH_SIZE),
                 steps=BATCH_SIZE,
                 verbose=1
                 )
-print(evaluation)
+# print(evaluation)
 
 # Prediccion
-# x_pred = x_train_e
-# y_pred = model.predict(x_pred)
+
+test(model)
 
 def print_predictions():
     print("*predictions*")
@@ -123,6 +113,7 @@ def print_predictions():
         print(" ")
 
 # print_predictions()
+
 
 import time
 time.sleep(1)

@@ -26,13 +26,7 @@ def load_data(batch_size, file):
             x_train = np.append(x_train, x_sample, axis=0)
             y_train = np.append(y_train, y_sample, axis=0)
 
-    #print("TRINING " + str(COUNT))
     COUNT += 1
-    #print("x_train")
-    #print(x_train)
-    """print("y_train")
-    print(y_train)
-    """
     lock.release()
     return x_train, y_train, file
 
