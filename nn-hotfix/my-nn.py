@@ -93,7 +93,7 @@ VALIDATION_STEPS = int(VALIDATION/BATCH_SIZE)
 
 
 model.fit_generator(
-                epochs=100,
+                epochs=40,
                 generator=generator(BATCH_SIZE),
                 steps_per_epoch=STEPS_PER_EPOCH, # cambiar
                 validation_data=validation_generator(BATCH_SIZE),
@@ -101,16 +101,13 @@ model.fit_generator(
                 # verbose=1
                 )
 
-"""
 print("*evalution*")
 evaluation = model.evaluate_generator(
                 generator=validation_generator(BATCH_SIZE),
                 steps=BATCH_SIZE,
                 verbose=1
                 )
-"""
-
-#print(evaluation)
+print(evaluation)
 
 # Prediccion
 # x_pred = x_train_e
