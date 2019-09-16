@@ -1,6 +1,9 @@
 import numpy as np
 import sys
 
+PUNISHMENT_FOR_VISIT = 1
+MAX_COUNTER = 1000
+
 def test_with_data(model):
     print("TEST")
     counter = 0
@@ -14,7 +17,7 @@ def test_with_data(model):
             line = line[:-5] # all line except the solution
             x_pred = np.array([list(line)]).astype('f')
             y_pred = model.predict(x_pred)
-            y = get_decision(y_pred[0])
+            # y = get_decision(y_pred[0])
             s = ""
             for i in y:
                 s += str(i)
@@ -116,55 +119,70 @@ def move_left(state, pos):
     state[x][y-1] = temp
     return state
 
-def get_decision(model, state, pos, states_visited):
+def get_decision(model, state, pos, states_visited, counter_of_visits):
     x_pred = get_x_array(state)
     y_pred = model.predict(x_pred)
     y_pred = y_pred[0]
 
-    ans = [(y_pred[i], i) for i in range(4)] # [(probabilidad, movimiento), (...), ... ]
-    ans.sort()
-    ans.reverse()
-    
-    ans = [i[1] for i in ans]
-    flag = False
-    second_flag = False
+    ans = [(y_pred[i], i) for i in range(4)] # [(probabilidad, movimiento), (...), ... ]    
 
-    
+    # cambiar las probabilidades segun los estados visitados
 
-    i = -1
-    while i < 3:
-        i += 1
+    # fin de cambiar las probabilidades segun los visitados
+
+    # cambiamos la opcion si es que no es posible y la ajustamos segun sus visitas
+    index = 0
+    already_punished = set()
+
+    while index < 4:
+        ans.sort(reverse=True)
+        
+        best_option = ans[index][1]
         state_copy = [[x for x in st] for st in state]
-        if ans[i] == 0:
+        if best_option == 0:
             possible_state = move_left(state_copy, pos)
-        elif ans[i] == 1:
+        elif best_option == 1:
             possible_state = move_down(state_copy, pos)
-        elif ans[i] == 2:
+        elif best_option == 2:
             possible_state = move_right(state_copy, pos)
-        elif ans[i] == 3:
+        elif best_option == 3:
             possible_state = move_up(state_copy, pos)
-        if possible_state is False:
-            print("not possible move")
-            if i == 3 and second_flag is False:
-                print("ya no hay mas posibles movidas :(")
-                return False, False
-            continue
-        if possible_state in states_visited:
-            second_flag = True
-            print("ya en visitados")
-            if flag:
+        else:
+            print("weird best option, siempre debiese ser un movimiento permitido entre 0 y 3")
+            sys.exit()
+        # revisamos si ya hemos visitado este nodo
+                    
+        if possible_state:
+
+            if (not best_option in already_punished) and (possible_state in states_visited):
+                index_visited = states_visited.index(possible_state) # TODO: no repetir esta busqueda!
+                count = counter_of_visits[index_visited]
+                print("estado ya visitado! ups", index_visited, count)
+                print(ans)
+                # cambiamos las probabilidades
+                x, y = ans[index]
+                x -= PUNISHMENT_FOR_VISIT * count
+                ans[index] = (x, y)
+                # fin cambiar las probabilidades
+                already_punished.add(best_option)
+                index = 0
                 continue
-            if i == 3:
-                print("ya no hay mas posibles movidas :(")
-                flag = True
-                i = -1
+                
 
-            continue
-        break
+            break
+        index += 1
+    if not possible_state:
+        print("no se encontro ninguna opcion de movimiento posible, muy raro esto")
+        sys.exit()
+    # fin de cambiar la opcion si no es posible
 
+
+    # change state for new_state
     for i in range(len(possible_state)):
         for j in range(len(possible_state[i])):
             state[i][j] = possible_state[i][j]
+    # end changing actual state
+
     return state
 
 import random
@@ -182,11 +200,12 @@ def test(model=""):
     counter = 0
 
     states_visited = [] # almacena matrices de estados visitados
+    counter_of_visits = {} # { index of the state in the list  states_visited: counter of visits to that state, ... }
 
     while different(state,last):
         counter += 1
-        if counter > 300:
-            print("mayor a 300, no sigue")
+        if counter > MAX_COUNTER:
+            print("mayor a", MAX_COUNTER, ", no sigue")
             break
 
         pos = find_pos(state)
@@ -194,15 +213,20 @@ def test(model=""):
         print(" ")
         print("TEST: ", counter)
         print_matrix(state)
-        state = get_decision(model, state, pos, states_visited)
+        state = get_decision(model, state, pos, states_visited, counter_of_visits)
 
         if state is False:
             print("se callo el juego, movida prohibida, esto no deberia pasar")
             sys.exit()
 
         state_copy = [[x for x in st] for st in state]
-        states_visited.append(state_copy)
-
+        if state_copy in states_visited:
+            index = states_visited.index(state_copy)
+            counter_of_visits[index] += 1
+        
+        else:
+            states_visited.append(state_copy)
+            counter_of_visits[len(states_visited) - 1] = 1
 
     if not different(state, last):
         print("Se ha resuelto el problema en steps: ", counter)

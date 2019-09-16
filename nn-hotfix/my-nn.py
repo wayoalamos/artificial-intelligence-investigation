@@ -70,7 +70,7 @@ def see_weights(model):
 PROBLEMS =  11000
 VALIDATION = 9667
 BATCH_SIZE = 50
-EPOCHS = 2
+EPOCHS = 20
 
 STEPS_PER_EPOCH = int(PROBLEMS/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
 VALIDATION_STEPS = int(VALIDATION/BATCH_SIZE)
