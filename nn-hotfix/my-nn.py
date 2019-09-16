@@ -27,6 +27,7 @@ def load_nn(n_input_layers, n_output_layers):
     input = Input(shape = (n_input_layers,))
 
     # Hidden layer
+    hidden_layer = Dense(units=16*10, activation='relu')(input)
     hidden_layer = Dense(units=16*5, activation='relu')(input)
     hidden_layer = Dense(units=16, activation='relu')(hidden_layer)
     #hidden_layer = Dense(units=16, activation='relu')(hidden_layer)
@@ -66,56 +67,58 @@ def see_weights(model):
         print("weights: ", capa.get_weights())
 
 # see_weights(model)
-
-
-
-model = load_nn(16*16,4)
-plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
-#model.summary()
-
 PROBLEMS =  11000
 VALIDATION = 9667
-
 BATCH_SIZE = 50
+EPOCHS = 2
+
 STEPS_PER_EPOCH = int(PROBLEMS/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
 VALIDATION_STEPS = int(VALIDATION/BATCH_SIZE)
 
+TEST_MODE = True
 
-model.fit_generator(
-                epochs=20,
-                generator=generator(BATCH_SIZE),
-                steps_per_epoch=STEPS_PER_EPOCH, # cambiar
-                validation_data=validation_generator(BATCH_SIZE),
-                validation_steps=VALIDATION_STEPS,
-                # verbose=1
-                )
+if __name__ == "__main__":
 
-print("*evalution*")
+    model = load_nn(16*16,4)
+    plot_model(model, to_file=(FILE_NAME + '.png'), show_shapes=True)
+    #model.summary()
 
-#evaluation = model.evaluate_generator(
-#                generator=validation_generator(BATCH_SIZE),
-#                steps=BATCH_SIZE,
-#                verbose=1
-#                )
-# print(evaluation)
+    model.fit_generator(
+                    epochs=EPOCHS,
+                    generator=generator(BATCH_SIZE),
+                    steps_per_epoch=STEPS_PER_EPOCH, # cambiar
+                    validation_data=validation_generator(BATCH_SIZE),
+                    validation_steps=VALIDATION_STEPS,
+                    # verbose=1
+                    )
 
-# Prediccion
+    # print("*evalution*")
 
-test(model)
+    #evaluation = model.evaluate_generator(
+    #                generator=validation_generator(BATCH_SIZE),
+    #                steps=BATCH_SIZE,
+    #                verbose=1
+    #                )
+    # print(evaluation)
 
-def print_predictions():
-    print("*predictions*")
-    for i in range(len(x_pred)):
-        print("decision taken :")
-        print(get_decision(y_pred[i]))
-        print("solution:")
-        print(y_train_e[i])
-        print(" ")
+    # Prediccion
 
-# print_predictions()
+    if TEST_MODE:
+        test(model)
+
+    def print_predictions():
+        print("*predictions*")
+        for i in range(len(x_pred)):
+            print("decision taken :")
+            print(get_decision(y_pred[i]))
+            print("solution:")
+            print(y_train_e[i])
+            print(" ")
+
+    # print_predictions()
 
 
-import time
-time.sleep(1)
-FILE.close()
-FILE_E.close()
+    import time
+    time.sleep(1)
+    FILE.close()
+    FILE_E.close()

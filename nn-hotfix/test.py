@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 def test_with_data(model):
     print("TEST")
@@ -32,6 +33,8 @@ def find_pos(line):
         for j in range(4):
             if line[i][j] == cero:
                 return (i, j)
+    print("No encontro la posicion del 0 upss..")
+    sys.exit()
     return None
 
 def get_matrix(line):
@@ -69,82 +72,100 @@ def move_down(state, pos):
     x, y = pos
     if x == 3:
         print("no move d",x ,y)
-        return False, pos
+        return False
 
     print("move down")
     temp = state[x][y]
     state[x][y] = state[x+1][y]
     state[x+1][y] = temp
-    return state, (x+1, y)
+    return state
 
 def move_up(state, pos):
     x, y = pos
     if x == 0:
         print("no move u",x ,y)
-        return False, pos
+        return False
 
     print("move up")
     temp = state[x][y]
     state[x][y] = state[x-1][y]
     state[x-1][y] = temp
-    return state, (x-1, y)
+    return state
 
 def move_right(state, pos):
     x, y = pos
     if y == 3:
         print("no move r",x ,y)
-        return False, pos
+        return False
 
     print("move right")
     temp = state[x][y]
     state[x][y] = state[x][y+1]
     state[x][y+1] = temp
-    return state, (x, y+1)
+    return state
 
 def move_left(state, pos):
     x, y = pos
     if y == 0:
         print("no move l",x ,y)
-        return False, pos
+        return False
 
     print("move left")
     temp = state[x][y]
     state[x][y] = state[x][y-1]
     state[x][y-1] = temp
-    return state, (x, y-1)
+    return state
 
 def get_decision(model, state, pos, states_visited):
     x_pred = get_x_array(state)
     y_pred = model.predict(x_pred)
     y_pred = y_pred[0]
 
-    ans = [(y_pred[i], i) for i in range(4)]
+    ans = [(y_pred[i], i) for i in range(4)] # [(probabilidad, movimiento), (...), ... ]
     ans.sort()
     ans.reverse()
+    
     ans = [i[1] for i in ans]
-    for i in range(4):
+    flag = False
+    second_flag = False
+
+    
+
+    i = -1
+    while i < 3:
+        i += 1
+        state_copy = [[x for x in st] for st in state]
         if ans[i] == 0:
-            possible_state, possible_pos = move_left(state, pos)
+            possible_state = move_left(state_copy, pos)
         elif ans[i] == 1:
-            possible_state, possible_pos = move_down(state, pos)
+            possible_state = move_down(state_copy, pos)
         elif ans[i] == 2:
-            possible_state, possible_pos = move_right(state, pos)
+            possible_state = move_right(state_copy, pos)
         elif ans[i] == 3:
-            possible_state, possible_pos = move_up(state, pos)
+            possible_state = move_up(state_copy, pos)
         if possible_state is False:
             print("not possible move")
-            if i == 3:
+            if i == 3 and second_flag is False:
                 print("ya no hay mas posibles movidas :(")
                 return False, False
             continue
         if possible_state in states_visited:
-            print("already in visited")
+            second_flag = True
+            print("ya en visitados")
+            if flag:
+                continue
             if i == 3:
                 print("ya no hay mas posibles movidas :(")
-                return False, False
+                flag = True
+                i = -1
+
             continue
         break
-    return possible_state, possible_pos
+
+    for i in range(len(possible_state)):
+        for j in range(len(possible_state[i])):
+            state[i][j] = possible_state[i][j]
+    return state
 
 import random
 def test(model=""):
@@ -160,18 +181,24 @@ def test(model=""):
 
     counter = 0
 
-    states_visited = []
+    states_visited = [] # almacena matrices de estados visitados
 
-    while different(state,last) and counter < 300:
-        pos = find_pos(state)
+    while different(state,last):
         counter += 1
+        if counter > 300:
+            print("mayor a 300, no sigue")
+            break
+
+        pos = find_pos(state)
+        
+        print(" ")
         print("TEST: ", counter)
         print_matrix(state)
-        state, pos = get_decision(model, state, pos, states_visited)
+        state = get_decision(model, state, pos, states_visited)
 
         if state is False:
-            print("se callo el juevo, movida prohibida, esto no deberia pasar")
-            return
+            print("se callo el juego, movida prohibida, esto no deberia pasar")
+            sys.exit()
 
         state_copy = [[x for x in st] for st in state]
         states_visited.append(state_copy)
