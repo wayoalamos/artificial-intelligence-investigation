@@ -74,10 +74,10 @@ def get_x_array(matrix):
 def move_down(state, pos):
     x, y = pos
     if x == 3:
-        print("no move d",x ,y)
+        # print("no move d",x ,y)
         return False
 
-    print("move down")
+    # print("move down")
     temp = state[x][y]
     state[x][y] = state[x+1][y]
     state[x+1][y] = temp
@@ -86,10 +86,10 @@ def move_down(state, pos):
 def move_up(state, pos):
     x, y = pos
     if x == 0:
-        print("no move u",x ,y)
+        # print("no move u",x ,y)
         return False
 
-    print("move up")
+    # print("move up")
     temp = state[x][y]
     state[x][y] = state[x-1][y]
     state[x-1][y] = temp
@@ -98,10 +98,10 @@ def move_up(state, pos):
 def move_right(state, pos):
     x, y = pos
     if y == 3:
-        print("no move r",x ,y)
+        # print("no move r",x ,y)
         return False
 
-    print("move right")
+    # print("move right")
     temp = state[x][y]
     state[x][y] = state[x][y+1]
     state[x][y+1] = temp
@@ -110,10 +110,10 @@ def move_right(state, pos):
 def move_left(state, pos):
     x, y = pos
     if y == 0:
-        print("no move l",x ,y)
+        # print("no move l",x ,y)
         return False
 
-    print("move left")
+    # print("move left")
     temp = state[x][y]
     state[x][y] = state[x][y-1]
     state[x][y-1] = temp
@@ -157,8 +157,8 @@ def get_decision(model, state, pos, states_visited, counter_of_visits):
             if (not best_option in already_punished) and (possible_state in states_visited):
                 index_visited = states_visited.index(possible_state) # TODO: no repetir esta busqueda!
                 count = counter_of_visits[index_visited]
-                print("estado ya visitado! ups", index_visited, count)
-                print(ans)
+                # print("estado ya visitado! ups", index_visited, count)
+                # print(ans)
                 # cambiamos las probabilidades
                 x, y = ans[index]
                 x -= PUNISHMENT_FOR_VISIT * count
@@ -185,51 +185,73 @@ def get_decision(model, state, pos, states_visited, counter_of_visits):
 
     return state
 
+def read_states():
+    states = []
+    fo = open('../15puzzle/problems')
+    for s in fo.readlines():
+        s = s.strip()
+        s = s.split(" ")[1:]
+        s = [int(x) for x in s]
+        s = ["0"*i + "1" + "0"*(15-i) for i in s]
+        s = " ".join(s)
+        states.append(s)
+
+    fo.close()
+
+    return states
+
+
 import random
 def test(model=""):
     print("TEST")
-    last = "1000000000000000010000000000000000100000000000000001000000000000000010000000000000000100000000000000001000000000000000010000000000000000100000000000000001000000000000000010000000000000000100000000000000001000000000000000010000000000000000100000000000000001"
-    state  = "1000000000000000 0100000000000000 0000000001000000 0000000100000000 0000000000010000 0000000000000100 0000010000000000 0001000000000000 0000000000000010 0000000000001000 0000100000000000 0010000000000000 0000000010000000 0000001000000000 0000000000100000 0000000000000001"
+    last = "1000000000000000 0100000000000000 0010000000000000 0001000000000000 0000100000000000 0000010000000000 0000001000000000 0000000100000000 0000000010000000 0000000001000000 0000000000100000 0000000000010000 0000000000001000 0000000000000100 0000000000000010 0000000000000001"
 
-    state = state.replace(" ", "")
+    states = read_states()
+
     last = last.replace(" ", "")
-
-    state = get_matrix(state)
     last = get_matrix(last)
 
-    counter = 0
+    state_number = 1
+    for state in states:
+        print("\n NUEVA ITERACION " + str(state_number))
+        state_number += 1
+        state = state.replace(" ", "")
 
-    states_visited = [] # almacena matrices de estados visitados
-    counter_of_visits = {} # { index of the state in the list  states_visited: counter of visits to that state, ... }
+        state = get_matrix(state)
 
-    while different(state,last):
-        counter += 1
-        if counter > MAX_COUNTER:
-            print("mayor a", MAX_COUNTER, ", no sigue")
-            break
+        counter = 0
 
-        pos = find_pos(state)
-        
-        print(" ")
-        print("TEST: ", counter)
-        print_matrix(state)
-        state = get_decision(model, state, pos, states_visited, counter_of_visits)
+        states_visited = [] # almacena matrices de estados visitados
+        counter_of_visits = {} # { index of the state in the list  states_visited: counter of visits to that state, ... }
 
-        if state is False:
-            print("se callo el juego, movida prohibida, esto no deberia pasar")
-            sys.exit()
+        while different(state,last):
+            counter += 1
+            if counter > MAX_COUNTER:
+                print("mayor a", MAX_COUNTER, ", no sigue")
+                break
 
-        state_copy = [[x for x in st] for st in state]
-        if state_copy in states_visited:
-            index = states_visited.index(state_copy)
-            counter_of_visits[index] += 1
-        
-        else:
-            states_visited.append(state_copy)
-            counter_of_visits[len(states_visited) - 1] = 1
+            pos = find_pos(state)
+            
+            # print(" ")
+            # print("TEST: ", counter)
+            # print_matrix(state)
+            state = get_decision(model, state, pos, states_visited, counter_of_visits)
 
-    if not different(state, last):
-        print("Se ha resuelto el problema en steps: ", counter)
+            if state is False:
+                print("se callo el juego, movida prohibida, esto no deberia pasar")
+                sys.exit()
+
+            state_copy = [[x for x in st] for st in state]
+            if state_copy in states_visited:
+                index = states_visited.index(state_copy)
+                counter_of_visits[index] += 1
+            
+            else:
+                states_visited.append(state_copy)
+                counter_of_visits[len(states_visited) - 1] = 1
+
+        if not different(state, last):
+            print("Se ha resuelto el problema en steps: ", counter)
 
 
 

@@ -70,7 +70,7 @@ def see_weights(model):
 PROBLEMS =  11000
 VALIDATION = 9667
 BATCH_SIZE = 50
-EPOCHS = 20
+EPOCHS = 40
 
 STEPS_PER_EPOCH = int(PROBLEMS/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
 VALIDATION_STEPS = int(VALIDATION/BATCH_SIZE)
@@ -93,7 +93,6 @@ if __name__ == "__main__":
                     )
 
     # print("*evalution*")
-
     #evaluation = model.evaluate_generator(
     #                generator=validation_generator(BATCH_SIZE),
     #                steps=BATCH_SIZE,
@@ -101,22 +100,8 @@ if __name__ == "__main__":
     #                )
     # print(evaluation)
 
-    # Prediccion
-
     if TEST_MODE:
         test(model)
-
-    def print_predictions():
-        print("*predictions*")
-        for i in range(len(x_pred)):
-            print("decision taken :")
-            print(get_decision(y_pred[i]))
-            print("solution:")
-            print(y_train_e[i])
-            print(" ")
-
-    # print_predictions()
-
 
     import time
     time.sleep(1)

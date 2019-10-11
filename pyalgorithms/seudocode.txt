@@ -1,0 +1,28 @@
+LRTA ( inicio ):
+    s: inicio
+    while s != goal:
+        next = argmin { 1 + h(t) } ,  t pertenece a los vecinos de s
+        h(s) = 1 + h(next) // learning
+        s.next: next
+        s = next
+
+
+
+const state goal = ... ; # 1234567891011121314150
+var state heuristics = ...; #null,null,...
+
+LRTA (state inicio):
+    var state s = inicio;
+    calculate_heuristic(inicio): distancia manhattan de cada nodo # update heuristic
+
+    while s!= goal:
+        var state next;
+        next = argmin (h(t)), t pertenece a los vecinos de s
+        h(s) = 1 + h(next) // update heuristic
+        s.next = next
+        s = next
+
+    return inicio # ahora podemos acceder a todo el camino desde inicio.next.next.next.....
+
+
+
