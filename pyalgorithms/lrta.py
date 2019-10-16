@@ -18,28 +18,28 @@ class State:
         self.set_matrix()
         self.next = None
         self.heuristic = self.calculate_heuristic()
+
+    def set_matrix(self):
+        if not self.values: return
+        for i in range(4):
+            for j in range(4):
+                self.matrix[i][j] = self.values[4*i + j]
     
     def calculate_heuristic(self):
         total = 0
         for i in range(4):
             for j in range(4):
                 manhattan_distance = self.get_manhattan_distance(i, j)
-                print(i, j, "..", manhattan_distance)
+                print(i,j,manhattan_distance)
                 total += manhattan_distance
         return total
     
     def get_manhattan_distance(self, i, j):
-        value = self.matrix[i][j]
+        value = self.values[4*i + j]
         last = self.goal[value] # (i, j)
         diff_i = abs(i-last[0])
         diff_j = abs(j-last[1])
-        return diff_i + diff_j
-    
-    def set_matrix(self):
-        if not self.values: return
-        for i in range(4):
-            for j in range(4):
-                self.matrix[i][j] = self.values[4*i + j]
+        return diff_i + diff_j 
     
     def print_state(self, state):
         print("STATE: ")
@@ -101,7 +101,7 @@ mf = ManageFile()
 problem = "00 0 1 9 7 11 13 5 3 14 12 4 2 8 6 10 15"
 problem = mf.convert_line(problem)
 s = State(problem)
-l = LRTA(s)
+# l = LRTA(s)
 
 
 
