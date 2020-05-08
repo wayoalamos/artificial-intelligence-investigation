@@ -19,7 +19,7 @@ def test_with_data(model):
             y_pred = model.predict(x_pred)
             # y = get_decision(y_pred[0])
             s = ""
-            for i in y:
+            for i in y_pred:
                 s += str(i)
 
             if(s == solution):

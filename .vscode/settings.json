@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "include.h": "c",
+        "puzzle.h": "c",
+        "stats.h": "c"
+    }
+}
