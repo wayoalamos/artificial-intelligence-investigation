@@ -149,7 +149,10 @@ counter = -1
 #11794
 #12802
 #19714
-starting_point = 21442
+#21442
+#24177
+#25616 
+starting_point = 26335
 while True:
     counter += 1
     print("starting while loop with counter", counter, "# file", starting_point + counter*PROBLEMS_IN_FILE)

@@ -20,6 +20,7 @@ TRIANING_FILES = 23177
 VALIDATION_FILES =  1000
 #TOTAL_FILES = 24177
 
+# STATES = 1133410
 STATES = 1133410
 VALIDATION = 52075
 # TOTAL_STATES = 1185485
@@ -98,12 +99,12 @@ load_files(validation_data, TRIANING_FILES + 1, TRIANING_FILES + 1001)
 #VALIDATION = 9667
 
 BATCH_SIZE = 300
-EPOCHS = 2
+EPOCHS = 8
 
 STEPS_PER_EPOCH = int(STATES/BATCH_SIZE) # cuantos batches tomo por epoch -> ideal : total/batchsize
 VALIDATION_STEPS = int(VALIDATION/BATCH_SIZE)
 
-TEST_MODE = True
+TEST_MODE = False
 
 if __name__ == "__main__":
 
@@ -127,6 +128,7 @@ if __name__ == "__main__":
                    verbose=1
                    )
     print(evaluation)
+    model.save('15puzzle_solver_model.h5')
 
     if TEST_MODE:
         test(model)

@@ -1,7 +1,8 @@
 import numpy as np
 import sys
+import time
 
-PUNISHMENT_FOR_VISIT = 1
+PUNISHMENT_FOR_VISIT = 0.2
 MAX_COUNTER = 1000
 
 def test_with_data(model):
@@ -212,6 +213,10 @@ def test(model=""):
     last = get_matrix(last)
 
     state_number = 1
+
+    length_all_solution = 0
+    total_time = 0
+
     for state in states:
         print("\n NUEVA ITERACION " + str(state_number))
         state_number += 1
@@ -220,13 +225,15 @@ def test(model=""):
         state = get_matrix(state)
 
         counter = 0
+        initial_time = time.time()
 
         states_visited = [] # almacena matrices de estados visitados
         counter_of_visits = {} # { index of the state in the list  states_visited: counter of visits to that state, ... }
+        steps_to_state = {} # index of the state in the list states_visited: minimum counter of steps to get there. This avoids counting loops
 
         while different(state,last):
             counter += 1
-            if counter > MAX_COUNTER:
+            if counter > MAX_COUNTER and False:
                 print("mayor a", MAX_COUNTER, ", no sigue")
                 break
 
@@ -245,13 +252,25 @@ def test(model=""):
             if state_copy in states_visited:
                 index = states_visited.index(state_copy)
                 counter_of_visits[index] += 1
+                counter = steps_to_state[index]
             
             else:
                 states_visited.append(state_copy)
                 counter_of_visits[len(states_visited) - 1] = 1
+                steps_to_state[len(states_visited) - 1] = counter
 
         if not different(state, last):
             print("Se ha resuelto el problema en steps: ", counter)
+            iteration_time = time.time() - initial_time
+            print("En tiempo: ", iteration_time)
+            length_all_solution += counter
+            total_time += iteration_time
+
+    print("RESUMEN")
+    print("length: ", length_all_solution)
+    print("total_time", total_time)
+
+
 
 
 
