@@ -53,6 +53,7 @@ class PrefAstar:
             elif current == 1 and not self.open.is_empty():
                 queue = self.open
             else:
+                current = (current + 1) % 2
                 continue
             n = queue.extract()   # extrae n de la open
 #            if queue == self.preferred:
@@ -64,6 +65,7 @@ class PrefAstar:
                 return n
             succ = n.state.successors()
             self.expansions += 1
+
             for child_state, action, cost in succ:
                 child_node = self.generated.get(child_state)
                 is_new = child_node is None  # es la primera vez que veo a child_state
@@ -71,10 +73,10 @@ class PrefAstar:
                 if is_new or path_cost < child_node.g:
                     # si vemos el estado child_state por primera vez o lo vemos por
                     # un mejor camino, entonces lo agregamos a open
-                    if is_new:  # creamos el nodo de child_state
+                    if is_new: # creamos el nodo de child_state
                         child_node = MultiNode(child_state, n)
                         child_node.h[0] = self.heuristic(child_state)
-                        child_node.h[1] = child_node.h[1]
+                        child_node.h[1] = child_node.h[0]
                         self.generated[child_state] = child_node
                     child_node.action = action
                     child_node.parent = n
@@ -82,9 +84,9 @@ class PrefAstar:
                     for i in range(2):
                         child_node.key[i] = self.fvalue(child_node.g,child_node.h[i]) # actualizamos el f de child_node
                     if child_node.state.preferred:
-                        self.preferred.insert(child_node) # inserta child_node a la open si no esta en la open
+                        self.preferred.insert(child_node) # inserta child_node a la open si no esta en la open, inserta en open preferida
                     else:
-                        self.open.insert(child_node)
+                        self.open.insert(child_node) # inserta en open no preferida
             current = (current + 1) % 2
-        self.end_time = time.process_time()      # en caso contrario, modifica la posicion de child_node en open
+        self.end_time = time.process_time() # en caso contrario, modifica la posicion de child_node en open
         return None
