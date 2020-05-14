@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np; np.random.seed(1)
 
-time = [83.98, 6.18, 3.44, 640.47, 526.92, 0.31, 0.14, 3.89, 2.33, 3.36, 11.4, 56.39]
-length = [5487, 6383, 11703, 5305, 5205, 6713, 31087, 247591, 35787, 52889, 16169, 10051]
-names = ["astar 1.4", "astar 2", "astar 10", "ida", "wida 1", "wida 2", "wida 10", "rta", "lrta", "rlrta", "rtaa 1000", "rtaa 10000"]
-optimality = [5205/i for i in length]
+time = [3.01, 430, 122, 46.24, 24.7, 9.25, 8.9, 9.8, 4.13]
+length = [707, 235, 235, 235, 239, 251, 263, 287, 335]
+names = ["model_alone", "astar_preferred", "astar 1", "astar 1.2", "astar 1.3", "astar 1.5", "astar 1.7", "astar 2", "astar 3"]
+optimality = [i/235 for i in length]
 
 print(len(time))
 print(len(length))
