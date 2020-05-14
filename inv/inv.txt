@@ -4,16 +4,84 @@
 15 4 7 13 10 1 2 9 6 12 8 14 5 3 0 11 15
 16 6 14 10 5 15 8 7 1 3 4 2 0 12 9 11 13
 
-Astar:
-
+Astar w = 1
 #prob      #exp      #gen     |sol|    tiempo
-    1    215563    403271        47     24.33
-    2    195521    369724        45     22.76
-    3    192480    353210        50     23.75
-    4    164743    311822        44     23.23
-    5    184279    346800        49     24.14
-Total time: 118.218
+    1    215563    403271        47     26.62
+    2    195521    369724        45     24.06
+    3    192480    353210        50     23.46
+    4    164743    311822        44     24.75
+    5    184279    346800        49     23.13
+Total time: 122.010
+Expansiones totales: 952586
 Total cost: 235
+
+Astar w = 1.2
+#prob      #exp      #gen     |sol|    tiempo
+    1    122267    232179        47     13.64
+    2     43331     83571        45      4.74
+    3     39635     75105        50      4.19
+    4    124428    237243        44     13.88
+    5     89969    169837        49      9.78
+Total time: 46.245
+Expansiones totales: 419630
+Total cost: 235
+
+Astar w = 1.3
+#prob      #exp      #gen     |sol|    tiempo
+    1     71122    136268        47      7.74
+    2     33519     64481        45      3.83
+    3     12050     23281        52      1.43
+    4     68010    130505        46      8.26
+    5     28737     54956        49      3.44
+Total time: 24.696
+Expansiones totales: 213438
+Total cost: 239
+
+Astar w = 1.5
+#prob      #exp      #gen     |sol|    tiempo
+    1     17203     33045        51      2.05
+    2     24215     43849        47      3.07
+    3       733      1426        52      0.18
+    4     10247     19567        46      1.24
+    5     24082     44643        55      2.70
+Total time: 9.249
+Expansiones totales: 76480
+Total cost: 251
+
+Astar w = 1.7
+#prob      #exp      #gen     |sol|    tiempo
+    1     19888     36966        53      2.31
+    2     17152     30982        51      1.89
+    3      1250      2463        52      0.31
+    4     13415     24983        46      1.58
+    5     26143     48694        61      2.86
+Total time: 8.944
+Expansiones totales: 77848
+Total cost: 263
+
+Astar w = 2
+#prob      #exp      #gen     |sol|    tiempo
+    1     17581     32522        55      1.93
+    2     17549     30280        55      1.91
+    3     24906     44067        62      2.69
+    4     13002     24271        50      1.42
+    5     17020     29437        65      1.89
+Total time: 9.835
+Expansiones totales: 90058
+Total cost: 287
+
+Astar w=3
+#prob      #exp      #gen     |sol|    tiempo
+    1      4216      7882        67      0.52
+    2      3841      6923        63      0.47
+    3     17757     27178        74      1.91
+    4      5642      9086        60      0.65
+    5      4310      7996        71      0.59
+Total time: 4.130
+Expansiones totales: 35766
+Total cost: 335
+
+
 
 Preferred Astar con NN: utiliza dos opens, en una se coloca el preferido por NN, en la otra el resto. Alterna 1-1
 #prob      #exp      #gen     |sol|    tiempo maxsubopt
