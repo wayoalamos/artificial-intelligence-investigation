@@ -46,14 +46,13 @@ class PrefAstar:
         # el Node que le corresponde
         self.generated = {}
         self.generated[self.initial_state] = initial_node
-        current = 1
+        current = 0
         while not self.open.is_empty() or not self.preferred.is_empty():
-            if current == 0 and not self.preferred.is_empty():
+            if not self.preferred.is_empty():
                 queue = self.preferred
-            elif current == 1 and not self.open.is_empty():
+            elif current == 0 and not self.open.is_empty():
                 queue = self.open
             else:
-                current = (current + 1) % 2
                 continue
             n = queue.extract()   # extrae n de la open
 #            if queue == self.preferred:
@@ -83,10 +82,11 @@ class PrefAstar:
                     child_node.g = path_cost
                     for i in range(2):
                         child_node.key[i] = self.fvalue(child_node.g,child_node.h[i]) # actualizamos el f de child_node
-                    if child_node.state.preferred:
+                    if child_node.state.preferred > 0.5:
                         self.preferred.insert(child_node) # inserta child_node a la open si no esta en la open, inserta en open preferida
-                    else:
-                        self.open.insert(child_node) # inserta en open no preferida
-            current = (current + 1) % 2
+                    elif child_node.state.preferred > 0.2:
+                        self.open.insert(child_node) # inserta en open no preferidaa
+
+        print("Error esto no deberia pasar!!!!!!!!!!!!!!")
         self.end_time = time.process_time() # en caso contrario, modifica la posicion de child_node en open
         return None

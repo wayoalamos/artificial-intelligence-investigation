@@ -117,5 +117,48 @@ Total time: 3.011155843734741
 Expansiones toales: 0
 Total cost:  707
 
+ANN1: Astar_preferred con dos opens, en una aquella que tiene las preferidas sobre 0.8. Itera 3-1
+#prob      #exp      #gen     |sol|    tiempo maxsubopt
+    1      2994      6094        51      2.79
+    2     19910     40784        51     20.32
+    3     10496     20881        58      9.55
+    4     21430     43813        52     19.81
+    5      1977      4043        49      1.86
+Tiempo total:        54.34
+Expansiones totales: 56807
+Costo total:         261
+
+ANN2: Astar_preferred con dos opens, en una aquella que tiene las preferidas sobre 0.8. Itera inf-1
+#prob      #exp      #gen     |sol|    tiempo maxsubopt
+    1      3261      6642        51      3.02
+    2     11803     24285        59     10.20
+    3     10412     20709        58      8.84
+    4     21185     43386        52     18.02
+    5      2408      4890        59      2.14
+Tiempo total:        42.22
+Expansiones totales: 49069
+Costo total:         279
+
+ANN3: Astar_preferred con dos opens, en una aquella que tiene las preferidas sobre 0.9. Itera inf-1
+#prob      #exp      #gen     |sol|    tiempo maxsubopt
+    1     17893     35412        49     14.78
+    2     26925     53996        51     27.87
+    3     45923     88104        54     42.16
+    4     17414     35035        52     14.33
+    5      3795      7568        53      3.19
+Tiempo total:        102.33
+Expansiones totales: 111950
+Costo total:         259
+
+ANN4: dos opens en una aquella con preferencia > 0.5 y en la otra con >0.2 inf-1
+#prob      #exp      #gen     |sol|    tiempo maxsubopt
+    1       470      1055        51      0.64
+    2       812      1873        47      0.92
+    3        80       197        62      0.19
+    4       278       663        50      0.44
+    5       587      1308        57      0.65
+Tiempo total:        2.84
+Expansiones totales: 2227
+Costo total:         267
 
 

@@ -39,7 +39,7 @@ class Puzzle:
                 sys.exit(1)
             if blank == -1:
                 self.blank = board.index(0)
-        self.preferred = False
+        self.preferred = None
 
     def initialize_pdb(id):
         f = open("pdb"+str(id)+".txt", 'r')
@@ -158,11 +158,11 @@ class Puzzle:
             child.blank = newblank
             child.board[child.blank] = 0
             child.board[self.blank] = self.board[newblank]
-            child.preferred = False
+            child.preferred = None
             return child
 
-        prediction = Puzzle.model.predict(self.nn_repr())
-        best = np.argmax(prediction)
+        prediction = Puzzle.model.predict(self.nn_repr())[0]
+        # best = np.argmax(prediction)
 
 #        print('myself:',self)
 #        print('my preferred child:')
@@ -170,27 +170,32 @@ class Puzzle:
         succ = []
         if self.blank > self.x - 1:
             c = create_child(self.blank-self.x)
+            c.preferred = prediction[3]
+
             succ.append((c, 'up', 1))
-            if best == 3:
-               c.preferred = True
+            # if best == 3:
+            #    c.preferred = True
 #                print(c)
         if self.blank % self.x > 0:
             c = create_child(self.blank-1)
+            c.preferred = prediction[0]
             succ.append((c, 'left', 1))
-            if best == 0:
-               c.preferred = True
+            # if best == 0:
+            #    c.preferred = True
 #                print(c)
         if self.blank % self.x < self.x - 1:
             c = create_child(self.blank+1)
+            c.preferred = prediction[2]
             succ.append((c, 'right', 1))
-            if best == 2:
-               c.preferred = True
+            # if best == 2:
+            #    c.preferred = True
 #                print(c)
         if self.blank < self.size - self.x:
             c = create_child(self.blank+self.x)
+            c.preferred = prediction[1]
             succ.append((c, 'down', 1))
-            if best == 1:
-               c.preferred = True
+            # if best == 1:
+            #    c.preferred = True
 #                print(c)
         return succ
 

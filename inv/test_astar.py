@@ -19,7 +19,7 @@ print('%5s%10s%10s%10s%10s' % ('#prob','#exp', '#gen', '|sol|', 'tiempo'))
 
 problems = []
 load_problems(problems)
- 
+
 total_time = 0
 total_cost = 0
 total_expansions = 0
@@ -33,7 +33,8 @@ for prob in range(0, total_problems):
     total_time += s.end_time - s.start_time
     total_expansions += s.expansions
     total_cost += result.g
-    if show_solutions: print(result.trace())
+    if show_solutions: 
+        print(result.trace())
 print('Total time: %.3f'%(total_time))
 print('Expansiones totales: %d'%(total_expansions))
 print('Total cost: %.3d'%(total_cost))
