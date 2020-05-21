@@ -1,0 +1,16 @@
+ANN4: dos opens en una aquella con preferencia > 0.5 y en la otra con >0.15 inf-1
+   95     12650     27901        81     10.78
+   96      2660      5860        69      2.48
+   97      2416      5414        71      2.13
+   98      3706      8417        82      3.28
+   99       980      2183        80      0.98
+  100      1981      4579        81      1.78
+Tiempo total:        125.02
+Expansiones totales: 128149
+Costo total:         6137
+
+ANN6: Astar evitando preffered < 0.05
+
+
+
+ANN7 Astar dos opens evitando preferred < 0.05 y prefiriendo 0.98

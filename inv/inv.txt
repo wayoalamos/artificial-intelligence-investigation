@@ -15,6 +15,11 @@ Total time: 122.010
 Expansiones totales: 952586
 Total cost: 235
 
+Astar a secas con dos opens:
+#prob      #exp      #gen     |sol|    tiempo maxsubopt
+    1    215563    403271        47    182.66
+    2    195521    369724        45    175.01
+
 Astar w = 1.2
 #prob      #exp      #gen     |sol|    tiempo
     1    122267    232179        47     13.64
@@ -128,28 +133,6 @@ Tiempo total:        54.34
 Expansiones totales: 56807
 Costo total:         261
 
-ANN2: Astar_preferred con dos opens, en una aquella que tiene las preferidas sobre 0.8. Itera inf-1
-#prob      #exp      #gen     |sol|    tiempo maxsubopt
-    1      3261      6642        51      3.02
-    2     11803     24285        59     10.20
-    3     10412     20709        58      8.84
-    4     21185     43386        52     18.02
-    5      2408      4890        59      2.14
-Tiempo total:        42.22
-Expansiones totales: 49069
-Costo total:         279
-
-ANN3: Astar_preferred con dos opens, en una aquella que tiene las preferidas sobre 0.9. Itera inf-1
-#prob      #exp      #gen     |sol|    tiempo maxsubopt
-    1     17893     35412        49     14.78
-    2     26925     53996        51     27.87
-    3     45923     88104        54     42.16
-    4     17414     35035        52     14.33
-    5      3795      7568        53      3.19
-Tiempo total:        102.33
-Expansiones totales: 111950
-Costo total:         259
-
 ANN4: dos opens en una aquella con preferencia > 0.5 y en la otra con >0.2 inf-1
 #prob      #exp      #gen     |sol|    tiempo maxsubopt
     1       470      1055        51      0.64
@@ -161,4 +144,24 @@ Tiempo total:        2.84
 Expansiones totales: 2227
 Costo total:         267
 
+ANN6: Astar evitando preffered < 0.05
+#prob      #exp      #gen     |sol|    tiempo maxsubopt
+    1     21924     46216        49     19.76
+    2     15659     33879        47     13.36
+    3     21342     44053        50     18.41
+    4      8367     18593        46      7.21
+    5     13775     29090        49     11.89
+Tiempo total:        70.63
+Expansiones totales: 81067
+Costo total:         241
 
+ANN7 Astar dos opens evitando preferred < 0.05 y prefiriendo 0.98
+#prob      #exp      #gen     |sol|    tiempo maxsubopt
+    1      4375      9267        53      4.37
+    2      5142     11263        47      5.09
+    3      6967     14603        54      6.36
+    4      6835     15331        46      6.47
+    5      3687      7915        55      3.51
+Tiempo total:        25.79
+Expansiones totales: 27006
+Costo total:         255
